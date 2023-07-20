@@ -228,6 +228,7 @@ class _VisitPlanState extends State<VisitPlan> with TickerProviderStateMixin {
               color: Colors.white,
               size: 30,
             ),
+            visible: _nodes.length == 0 ? false : true,
             backgroundColor: Colors.greenAccent.shade700,
             onTap: () {
               UpdateStatus("POST");
@@ -485,6 +486,9 @@ class _VisitPlanState extends State<VisitPlan> with TickerProviderStateMixin {
     String jdecode = await storage.read(key: JDECODE);
     ApproveProvider().UpdateStatusAndSendMail(
         _selectdDayPlan.toString(), jdecode.toString(), status);
+    create = false;
+    messageAlert.okAlert(
+        context: context, message: "success", title: "Plan post to approve");
     await getVisitPlan(_selectdDayPlan);
   }
 

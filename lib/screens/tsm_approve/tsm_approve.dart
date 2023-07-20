@@ -21,7 +21,8 @@ import 'package:tsem/screens/visit_start/visit_start.dart';
 
 class TsmApprove extends StatefulWidget {
   static String routeName = "/tsmapprove";
-  TsmApprove();
+  DateTime datePlanApprove;
+  TsmApprove({this.datePlanApprove});
 
   @override
   State<TsmApprove> createState() => _TsmApproveState();
@@ -29,7 +30,7 @@ class TsmApprove extends StatefulWidget {
 
 class _TsmApproveState extends State<TsmApprove> with TickerProviderStateMixin {
   MessageAlert messageAlert = MessageAlert();
-  List<Result> _nodes =[];
+  List<Result> _nodes = [];
   List _selectedEvents;
   DateTime _selectedDay = DateTime.now();
   bool menuApprRej = false;
@@ -115,6 +116,13 @@ class _TsmApproveState extends State<TsmApprove> with TickerProviderStateMixin {
     );
 
     _animationController.forward();
+    if (widget.datePlanApprove == null) {
+      widget.datePlanApprove = DateTime.now();
+    } else {
+      _selectedDay = widget.datePlanApprove;
+      _selectdDayPlan = widget.datePlanApprove;
+      DateRefresh = widget.datePlanApprove;
+    }
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       final _storage = FlutterSecureStorage();
       String _jdecode = await _storage.read(key: JDECODE);
@@ -143,7 +151,6 @@ class _TsmApproveState extends State<TsmApprove> with TickerProviderStateMixin {
       } else {
         final storage = new FlutterSecureStorage();
         String seApprove = await storage.read(key: APPROVED);
-        String planApprove = await storage.read(key: PLANAPPROVED);
         setState(() async {
           _extendItem = [];
           _extendItem.addAll(value.result);
@@ -154,12 +161,6 @@ class _TsmApproveState extends State<TsmApprove> with TickerProviderStateMixin {
               }
             });
             storage.delete(key: APPROVED);
-            print(_seleteSE.SalesCode);
-            print(DateTime.parse(planApprove));
-            _selectedDay = DateTime.parse(planApprove);
-            _selectdDayPlan = DateTime.parse(planApprove);
-            DateRefresh = DateTime.parse(planApprove);
-            storage.delete(key: PLANAPPROVED);
             await getVisitPlan(_selectdDayPlan, _seleteSE.SalesCode);
           } else {
             _seleteSE = _extendItem[0];
@@ -513,11 +514,10 @@ class _TsmApproveState extends State<TsmApprove> with TickerProviderStateMixin {
     ApproveProvider().UpdateStatusAndSendMail(
         _selectdDayPlan.toString(), _seleteSE.SalesCode.toString(), status);
     storage.write(key: APPROVED, value: _seleteSE.SalesCode.toString());
-    storage.write(key: PLANAPPROVED, value: _selectdDayPlan.toString());
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => TsmApprove(),
+        builder: (context) => TsmApprove(datePlanApprove: _selectdDayPlan),
       ),
     );
   }
