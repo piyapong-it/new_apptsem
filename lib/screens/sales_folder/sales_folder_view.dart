@@ -53,7 +53,6 @@ class _SalesFolderViewState extends State<SalesFolderView> {
               },
               onRender: (_pages) {
                 setState(() {
-                  print("Ready render");
                   _totalPages = _pages;
                   pdfReady = true;
                 });

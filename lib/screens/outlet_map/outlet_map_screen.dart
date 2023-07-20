@@ -30,10 +30,10 @@ class _OutletMapState extends State<OutletMap> {
   Future _createMarkerImageFromAsset(BuildContext context) async {
     if (_markerIcon == null) {
       ImageConfiguration configuration = ImageConfiguration();
-      // BitmapDescriptor bmpd = await BitmapDescriptor.fromAssetImage(
-      //     configuration, 'assets/images/tap_icon.png');
+      BitmapDescriptor bmpd = await BitmapDescriptor.fromAssetImage(
+          configuration, 'assets/images/map.png');
       setState(() {
-        // _markerIcon = bmpd;
+        _markerIcon = bmpd;
       });
     }
   }

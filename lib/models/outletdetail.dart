@@ -54,6 +54,7 @@ class Result {
     this.addr1,
     this.addr5,
     this.addr6,
+    this.OutletCont,
   });
 
   String outletId;
@@ -86,6 +87,7 @@ class Result {
   String addr1;
   String addr5;
   String addr6;
+  String OutletCont;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
     outletId: json["OutletID"],
@@ -118,6 +120,7 @@ class Result {
     addr1: json["Addr1"],
     addr5: json["Addr5"],
     addr6: json["Addr6"],
+    OutletCont: json["OutletCont"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -151,5 +154,6 @@ class Result {
     "Addr1": addr1,
     "Addr5": addr5,
     "Addr6": addr6,
+    "OutletCont": OutletCont,
   };
 }

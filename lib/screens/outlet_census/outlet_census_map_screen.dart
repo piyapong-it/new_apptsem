@@ -63,9 +63,8 @@ class _OutletCensusMapState extends State<OutletCensusMap> {
   }
 
   Future<LocationData> getCurrentLocation() async {
-    Location location = Location();
     try {
-      return await location.getLocation();
+      return await Location.instance.getLocation();
     } on PlatformException catch (e) {
       if (e.code == 'PERMISSION_DENIED') {
         // Permission denied

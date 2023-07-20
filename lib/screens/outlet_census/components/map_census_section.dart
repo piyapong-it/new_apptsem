@@ -17,6 +17,10 @@ class MapCensusSection extends StatefulWidget {
 }
 
 class _MapCensusSectionState extends State<MapCensusSection> {
+  static const CameraPosition _initMap = CameraPosition(
+    target: LatLng(13.7462463, 100.5325515),
+    zoom: 20,
+  );
   Completer<GoogleMapController> _controller = Completer();
 
   List<Marker> allMarkers = [];
@@ -58,14 +62,27 @@ class _MapCensusSectionState extends State<MapCensusSection> {
     }
 
     return Scaffold(
+        //  floatingActionButton: _buildTrackingButton(),
+        appBar: AppBar(title: Text('Map'), actions: [
+          // IconButton(
+          //     onPressed: () {
+          //       _controller.future.then(
+          //         (value) => value.animateCamera(
+          //           CameraUpdate.newLatLngZoom(_initMap.target, 15),
+          //         ),
+          //       );
+          //     },
+          //     icon: Icon(Icons.pin_drop)),
+        ]),
       body: GoogleMap(
         mapType: MapType.normal,
         myLocationEnabled: true,
-        initialCameraPosition: CameraPosition(
-          target: LatLng(widget.currentLocation.latitude,
-              widget.currentLocation.longitude), //กำหนดพิกัดเริ่มต้นบนแผนที่
-          zoom: 10, //กำหนดระยะการซูม สามารถกำหนดค่าได้ 0-20
-        ),
+        initialCameraPosition: _initMap,
+        // initialCameraPosition: CameraPosition(
+        //   target: LatLng(widget.currentLocation.latitude,
+        //       widget.currentLocation.longitude), //กำหนดพิกัดเริ่มต้นบนแผนที่
+        //   zoom: 10, //กำหนดระยะการซูม สามารถกำหนดค่าได้ 0-20
+        // ),
         markers: Set.from(allMarkers),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);

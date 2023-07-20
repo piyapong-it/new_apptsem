@@ -24,7 +24,6 @@ class _PerformanceScreenState extends State<PerformanceScreen> {
   _generateData() {
     VisitProvider().getVisitCount().then((value) {
       if (!value.success) {
-        print('message ${value.message}');
         messageAlert.functAlert(
             context: context,
             message: value.message,

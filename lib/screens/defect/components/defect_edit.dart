@@ -75,7 +75,6 @@ class _DefectEditState extends State<DefectEdit> {
         }
         if (value.result.length == 0) {
           setState(() {
-            print('no record');
             getUdcStatus();
             getUdcCategory();
             getProduct();

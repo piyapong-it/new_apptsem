@@ -55,7 +55,6 @@ class MapSection extends StatelessWidget {
   }
 
   _goToOutlet() async {
-    print('goto outlet');
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newLatLng(LatLng(lat, lng)));
   }

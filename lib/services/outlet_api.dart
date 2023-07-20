@@ -150,7 +150,6 @@ class OutletApi {
     try {
       final storage = new FlutterSecureStorage();
       String _token = await storage.read(key: USERTOKEN);
-      print("data$data");
       final uri = Uri.https(endpoint, "/api/outlets/updateOutletDetail");
       Response response = await _dio.post(uri.toString(),
           data: data,

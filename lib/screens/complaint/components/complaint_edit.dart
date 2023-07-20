@@ -124,7 +124,6 @@ class _ComplaintEditState extends State<ComplaintEdit> {
 
   void getProduct() {
     ProductProvider().getProductMaster(own: 'CMP').then((value) {
-      print("getProduct");
       if (!value.success) {
         print('message ${value.message}');
         messageAlert.functAlert(
@@ -137,8 +136,6 @@ class _ComplaintEditState extends State<ComplaintEdit> {
       if (value.result.length == 0) {
         setState(() {});
       } else {
-        print("getProduct1");
-        print(value.result);
         setState(() {
           _nodeProduct = value.result;
           if (complainItem.rpmid != null) {

@@ -22,7 +22,6 @@ const String PASSWORD = "password";
 const String USERTOKEN = "usertoken";
 const String FRISTNAME = 'firstName';
 const String APPROVED = 'approved';
-const String PLANAPPROVED = 'planapprove';
 
 
 const kPrimaryColor = Color(0xFF1976D2);

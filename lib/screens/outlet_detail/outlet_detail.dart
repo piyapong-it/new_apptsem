@@ -67,6 +67,7 @@ class _OutletDetailState extends State<OutletDetail>
   final TextEditingController _Address = TextEditingController();
   final TextEditingController _LatLong = TextEditingController();
   final TextEditingController _Telphone = TextEditingController();
+  final TextEditingController _Contact = TextEditingController();
   final TextEditingController _Mobile = TextEditingController();
   final TextEditingController _Zipcode = TextEditingController();
   final TextEditingController _houseNo = TextEditingController();
@@ -197,6 +198,32 @@ class _OutletDetailState extends State<OutletDetail>
                     ),
                     SizedBox(height: 10),
                     Container(
+                      child: Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextField(
+                              maxLength: 20,
+                              controller: _Contact,
+                              style: TextStyle(fontSize: 14.0),
+                              enabled: true,
+                              maxLines: null, //or null
+                              decoration: InputDecoration(
+                                counterText: "",
+                                labelText: "Contact",
+                                border: OutlineInputBorder(),
+                                prefixIcon: Icon(
+                                  Icons.contacts,
+                                  color: Colors.blueAccent,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Container(
                       child: Row(
                         children: [
                           Expanded(
@@ -297,7 +324,7 @@ class _OutletDetailState extends State<OutletDetail>
                               ),
                               iconSize: 30,
                               decoration: InputDecoration(
-                                  labelText: "Outlate Type",
+                                  labelText: "Outlet Type",
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(12.0)),
@@ -325,7 +352,6 @@ class _OutletDetailState extends State<OutletDetail>
                               onChanged: (newValue) {
                                 setState(() {
                                   _selectOutlateType = newValue;
-                                  print(_selectOutlateType.udc_desc1);
                                 });
                               },
                             ),
@@ -347,7 +373,7 @@ class _OutletDetailState extends State<OutletDetail>
                               ),
                               iconSize: 30,
                               decoration: InputDecoration(
-                                  labelText: "Outlate Status",
+                                  labelText: "Outlet Status",
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(12.0)),
@@ -492,8 +518,8 @@ class _OutletDetailState extends State<OutletDetail>
               item.zipCode;
           _LatLong.text =
               item.gpsLatitude.toString() + "/" + item.gpsLongtitude.toString();
+          _Contact.text = item.OutletCont;
         });
-        print(widget.houseNo);
         if (widget.provinceId != null) {
           _Address.text = '';
         }
@@ -776,7 +802,7 @@ class _OutletDetailState extends State<OutletDetail>
 
   Future<void> saveDetailOutl() async {
     final storage = new FlutterSecureStorage();
-    String _fristname = await storage.read(key: FRISTNAME);
+    String _jdeCode = await storage.read(key: JDECODE);
     final initData = {
       "lat": _locationData != null
           ? _locationData.latitude.toString()
@@ -792,6 +818,7 @@ class _OutletDetailState extends State<OutletDetail>
       "outlEnabled": _selectOutlateStatus != null
           ? _selectOutlateStatus.udc_key
           : item.statusId,
+      "outlContact": _Contact != null ? _Contact.text.toString() : item.OutletCont,
       "outlTel": _Telphone != null ? _Telphone.text.toString() : item.telephone,
       "outlMobile": _Mobile != null ? _Mobile.text.toString() : item.mobile,
       "type": _selectOutlateType != null
@@ -807,7 +834,7 @@ class _OutletDetailState extends State<OutletDetail>
       "amphur": widget.amphur != null ? widget.amphur : item.addr5,
       "tumbon": widget.tumbon != null ? widget.tumbon : item.addr6,
       "outlId": item.outletId,
-      "UpdateBy": _fristname
+      "UpdateBy": _jdeCode
     };
     UpdateOutlet(initData);
   }
@@ -832,12 +859,16 @@ class _OutletDetailState extends State<OutletDetail>
                   context, OutletScreen.routeName, (route) => false);
             });
       } else {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => OutletScreen(),
-          ),
-        );
+           messageAlert.okAlert(
+          context: context,
+          message: "Successfully",
+          title: "Alert");
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => OutletScreen(),
+        //   ),
+        // );
       }
     }).catchError((err) {
       print(err);
@@ -855,7 +886,6 @@ class _OutletDetailState extends State<OutletDetail>
       fileName = widget.outletId;
       _startUploading(fileName);
     } else {
-      print('_image null ${_image}');
       Navigator.pop(context);
     }
   }
