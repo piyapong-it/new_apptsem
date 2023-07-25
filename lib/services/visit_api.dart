@@ -296,7 +296,7 @@ class VisitApi {
       String visitdate}) async {
     try {
       final storage = new FlutterSecureStorage();
-      String _username = await storage.read(key: USERNAME);
+      String _jdeCode = await storage.read(key: JDECODE);
       String _token = await storage.read(key: USERTOKEN);
 
       final uri = Uri.https(endpoint, "/api/visit/updateVisitCallCard");
@@ -310,7 +310,7 @@ class VisitApi {
             "price": price,
             "stock": stock,
             "productdate": productdate,
-            "updateby": _username,
+            "updateby": _jdeCode,
             "outletid": outletid,
             "visitdate": visitdate
           },

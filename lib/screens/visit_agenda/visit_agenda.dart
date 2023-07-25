@@ -359,7 +359,12 @@ class _VisitAgendaScreenState extends State<VisitAgendaScreen> {
       //print('visit id = ${_nodes[0].visitId}');
       VisitProvider()
           .updateVisit(visitId: _nodes[0].visitId, visitStatus: "DONE")
-          .then((value) => Navigator.pop(context));
+          .then((value) => 
+          
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => new VisitMjpScreen())));
     } else {
       messageAlert.okAlert(
           context: context,

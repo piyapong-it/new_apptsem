@@ -53,6 +53,7 @@ class _VisitMjpScreenState extends State<VisitMjpScreen>
       if (value.result.length == 0) {
         //Not exists MJP
       } else {
+        // _nodes =  [];
         setState(() {
           _nodes.addAll(value.result);
           _events = _groupEvents(_nodes);

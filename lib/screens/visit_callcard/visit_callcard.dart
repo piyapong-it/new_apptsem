@@ -158,9 +158,7 @@ class _VisitCallCardScreenState extends State<VisitCallCardScreen> {
       onDismissed: (direction) {
         VisitProvider()
             .deleteVisitCallCard(
-            visitId: item.visitId,
-            agendaId: item.agendaId,
-            pmid: item.pmId)
+                visitId: item.visitId, agendaId: item.agendaId, pmid: item.pmId)
             .then((value) {
           _nodes = [];
           getCallCard();
@@ -198,18 +196,13 @@ class _VisitCallCardScreenState extends State<VisitCallCardScreen> {
                 borderRadius: BorderRadius.circular(10.0),
                 child: SizedBox(
                   width: SizeConfig.screenHeight * 0.15,
-                  child: Image.network(
-                    item.pmImage,
-                    errorBuilder: (BuildContext context, Object exception,
-                        StackTrace stackTrace) {
-                      return Image.asset('assets/images/noimage.jpg');
-                    },
-                  ),
-                  // FadeInImage.memoryNetwork(
-                  //   fit: BoxFit.cover,
-                  //   placeholder: kTransparentImage,
-                  //   image: item.pmImage,
-                  // ),
+                  child: FadeInImage.memoryNetwork(
+                      fit: BoxFit.contain,
+                      width: 90,
+                      height: 90,
+                      placeholder: kTransparentImage,
+                      // image: 'https://picsum.photos/250?image=9',
+                      image: item.pmImage),
                 ),
               ),
             ),
