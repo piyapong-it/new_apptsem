@@ -100,7 +100,9 @@ class VisitProvider {
       double stock,
       String productdate,
       String outletid,
-      String visitdate}) async {
+      String visitdate,
+      String remark,
+      int seq}) async {
     return api.updateVisitCallCard(
         visitId: visitId,
         agendaId: agendaId,
@@ -111,13 +113,15 @@ class VisitProvider {
         stock: stock,
         productdate: productdate,
         outletid: outletid,
-        visitdate: visitdate);
+        visitdate: visitdate,
+        remark: remark,
+        seq: seq);
   }
 
   Future<DmLmessage> deleteVisitCallCard(
-      {String visitId, int agendaId, String pmid}) async {
+      {String visitId, int agendaId, String pmid, int seq}) async {
     return api.deleteVisitCallCard(
-        visitId: visitId, agendaId: agendaId, pmid: pmid);
+        visitId: visitId, agendaId: agendaId, pmid: pmid, eoeSeq: seq);
   }
 
   Future<ItemVisitEoE> getItemVisitEoE(Object data) async {

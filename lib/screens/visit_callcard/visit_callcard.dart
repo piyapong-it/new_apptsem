@@ -36,7 +36,7 @@ class _VisitCallCardScreenState extends State<VisitCallCardScreen> {
   List<Result> _nodes = [];
 
   MessageAlert messageAlert = MessageAlert();
-
+  bool show = false;
   @override
   void initState() {
     getCallCard();
@@ -102,29 +102,6 @@ class _VisitCallCardScreenState extends State<VisitCallCardScreen> {
         ],
       ),
       body: _showCallCard(),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     Navigator.push(
-      //       context,
-      //       MaterialPageRoute(
-      //         builder: (context) => CallCardAdd(
-      //           visitId: widget.visitId,
-      //           agendaId: widget.agendaId,
-      //           outletName: widget.outletName,
-      //           visitDate: widget.visitDate,
-      //           outletId: widget.outletId,
-      //         ),
-      //       ),
-      //     ).then((value) {
-      //       setState(() {
-      //         _nodes = [];
-      //         getCallCard();
-      //       });
-      //     });
-      //   },
-      //   tooltip: 'Add Product',
-      //   child: Icon(Icons.add),
-      // ),
     );
   }
 
@@ -152,13 +129,13 @@ class _VisitCallCardScreenState extends State<VisitCallCardScreen> {
   }
 
   Widget itemCallCard(Result item) {
-    return Dismissible(
+    return show ? Dismissible(
       key: UniqueKey(),
       direction: DismissDirection.endToStart,
       onDismissed: (direction) {
         VisitProvider()
             .deleteVisitCallCard(
-                visitId: item.visitId, agendaId: item.agendaId, pmid: item.pmId)
+                visitId: item.visitId, agendaId: item.agendaId, pmid: item.pmId, seq: item.eoeSeq)
             .then((value) {
           _nodes = [];
           getCallCard();
@@ -240,15 +217,73 @@ class _VisitCallCardScreenState extends State<VisitCallCardScreen> {
               ],
             ),
           )),
-          // Expanded(
-          //   child: Text(
-          //     item.bmName,
-          //     style: TextStyle(color: Colors.black),
-          //   ),
-          // )
         ],
       ),
-    );
+    ) : Row(
+        children: [
+          GestureDetector(
+            onTap: () async {
+              await showDialog(
+                  context: context,
+                  builder: (_) => ImageDialog(
+                        imagePath: item.pmImage,
+                      ));
+            },
+            child: Container(
+              margin: EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(3.0),
+                  border: Border.all(color: Colors.grey, width: 1.0)),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10.0),
+                child: SizedBox(
+                  width: SizeConfig.screenHeight * 0.15,
+                  child: FadeInImage.memoryNetwork(
+                      fit: BoxFit.contain,
+                      width: 90,
+                      height: 90,
+                      placeholder: kTransparentImage,
+                      // image: 'https://picsum.photos/250?image=9',
+                      image: item.pmImage),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+              child: GestureDetector(
+            onTap: () {
+              setState(() {
+                detailClick(item);
+              });
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              //mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  item.pmName,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 17.0,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  '${item.bmName.toString()} ${item.pmId.toString()}',
+                  style: TextStyle(color: Colors.black, fontSize: 14.0),
+                ),
+                Text(
+                  'Monthly Sales: ${item.mas.toString()} RSP: ${item.price.toString()} ',
+                  style: TextStyle(color: Colors.black, fontSize: 14.0),
+                ),
+                Text(
+                  'DIS Sales: ${item.disCase.toString()} Target: ${item.targetCase.toString()} ',
+                  style: TextStyle(color: Colors.black, fontSize: 14.0),
+                ),
+              ],
+            ),
+          )),
+        ],
+      );
   }
 
   void saveCallCardHead() {

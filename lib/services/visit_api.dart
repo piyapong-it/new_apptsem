@@ -120,7 +120,6 @@ class VisitApi {
           options: Options(headers: {"Authorization": "Bearer $_token"}));
       var jsonResponse = json.decode(response.data);
       DmLmessage result = DmLmessage.fromJson(jsonResponse);
-      print('dmlmessage = ${result.message}');
       return result;
     } catch (e) {
       print('e = ${e}');
@@ -293,7 +292,10 @@ class VisitApi {
       double stock,
       String productdate,
       String outletid,
-      String visitdate}) async {
+      String visitdate,
+      String remark,
+      int seq
+      }) async {
     try {
       final storage = new FlutterSecureStorage();
       String _jdeCode = await storage.read(key: JDECODE);
@@ -312,7 +314,9 @@ class VisitApi {
             "productdate": productdate,
             "updateby": _jdeCode,
             "outletid": outletid,
-            "visitdate": visitdate
+            "visitdate": visitdate,
+            "remark": remark,
+            "seq": seq
           },
           options: Options(headers: {"Authorization": "Bearer $_token"}));
 
@@ -326,7 +330,7 @@ class VisitApi {
   }
 
   Future<DmLmessage> deleteVisitCallCard(
-      {String visitId, int agendaId, String pmid}) async {
+      {String visitId, int agendaId, String pmid, int eoeSeq}) async {
     try {
       final storage = new FlutterSecureStorage();
       String _username = await storage.read(key: USERNAME);
@@ -335,7 +339,7 @@ class VisitApi {
       final uri = Uri.https(endpoint, "/api/visit/deleteVisitCallCard");
 
       Response response = await _dio.post(uri.toString(),
-          data: {"visitid": visitId, "agendaid": agendaId, "pmid": pmid},
+          data: {"visitid": visitId, "agendaid": agendaId, "pmid": pmid, "Seq": eoeSeq},
           options: Options(headers: {"Authorization": "Bearer $_token"}));
 
       var jsonResponse = json.decode(response.data);

@@ -30,18 +30,9 @@ class AssetApi {
 
       final uri =
           Uri.https(endpoint, "/api/asset/getAssetMaster", queryParameters);
-      _dio.interceptors.add(InterceptorsWrapper(
-          onRequest: (RequestOptions options, handler) async {
-        var customHeaders = {
-          'content-type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $_token'
-        };
-        options.headers.addAll(customHeaders);
-        return options;
-      }));
 
-      Response response = await _dio.get(uri.toString());
+      Response response = await _dio.get(uri.toString(),
+          options: Options(headers: {"Authorization": "Bearer $_token"}));
       var jsonResponse = json.decode(response.data);
 
       AssetMaster result = AssetMaster.fromJson(jsonResponse);
@@ -67,32 +58,19 @@ class AssetApi {
 
       final uri = Uri.https(endpoint, "/api/asset/updateAsset");
 
-      /*_dio.interceptors.add(InterceptorsWrapper(onRequest: (RequestOptions options, handler) async{
-        
-      }));*/
-
-      _dio.interceptors.add(InterceptorsWrapper(
-          onRequest: (RequestOptions options, handler) async {
-        var customHeaders = {
-          'content-type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $_token'
-        };
-        options.headers.addAll(customHeaders);
-        return options;
-      }));
-
-      Response response = await _dio.post(uri.toString(), data: {
-        "stickerid": stickerid,
-        "outletid": outletid,
-        "assetcategory": assetcategory,
-        "assetstatus": assetstatus,
-        "assetsno": assetsno,
-        "assetjdeno": assetjdeno,
-        "assetremark": assetremark,
-        "assetquantity": assetquantity,
-        "updateby": _username
-      });
+      Response response = await _dio.post(uri.toString(),
+          data: {
+            "stickerid": stickerid,
+            "outletid": outletid,
+            "assetcategory": assetcategory,
+            "assetstatus": assetstatus,
+            "assetsno": assetsno,
+            "assetjdeno": assetjdeno,
+            "assetremark": assetremark,
+            "assetquantity": assetquantity,
+            "updateby": _username
+          },
+          options: Options(headers: {"Authorization": "Bearer $_token"}));
 
       var jsonResponse = json.decode(response.data);
 

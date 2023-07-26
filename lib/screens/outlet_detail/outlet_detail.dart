@@ -859,16 +859,16 @@ class _OutletDetailState extends State<OutletDetail>
                   context, OutletScreen.routeName, (route) => false);
             });
       } else {
-           messageAlert.okAlert(
-          context: context,
-          message: "Successfully",
-          title: "Alert");
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => OutletScreen(),
-        //   ),
-        // );
+          //  messageAlert.okAlert(
+          // context: context,
+          // message: "Successfully",
+          // title: "Alert");
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OutletScreen(),
+          ),
+        );
       }
     }).catchError((err) {
       print(err);

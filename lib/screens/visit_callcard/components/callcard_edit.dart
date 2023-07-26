@@ -26,11 +26,14 @@ class _CallCardEditState extends State<CallCardEdit> {
   FocusNode dateFocusNode = FocusNode();
   FocusNode saveFocusNode = FocusNode();
   Result item;
+  TextEditingController _remark = TextEditingController();
+  
 
   @override
   void initState() {
     item = widget.callcard;
     _pickDate = item.productionDate;
+    _remark.text = item.remark;
     if(item.mas == 0){
       item.mas = item.disCase;
     }
@@ -98,6 +101,24 @@ class _CallCardEditState extends State<CallCardEdit> {
               SizedBox(height: 10),
               _buildPrice(),
               SizedBox(height: 10),
+              Container(
+                            child: Column(children: [
+                              TextField(
+                                maxLength: 250,
+                                controller: _remark,
+                                style: TextStyle(fontSize: 13.0),
+                                maxLines: 3, //or null
+                                decoration: InputDecoration(
+                                  labelText: "remark",
+                                  border: OutlineInputBorder(),
+                                  prefixIcon: Icon(
+                                    Icons.remember_me_outlined,
+                                    color: Colors.blueAccent,
+                                  ),
+                                ),
+                              ),
+                            ]),
+                          ),
               //_buildStock(),
               //SizedBox(height: 10),
               //_buildProductDate(),
@@ -127,7 +148,9 @@ class _CallCardEditState extends State<CallCardEdit> {
                   ? null
                   : DateFormat('dd-MMM-yyyy').format(_pickDate),
               outletid: item.outletId,
-              visitdate: DateFormat('dd-MMM-yyyy').format(item.visitDate))
+              visitdate: DateFormat('dd-MMM-yyyy').format(item.visitDate),
+              remark: _remark != null ? _remark.text : item.remark,
+              seq: item.eoeSeq)
           .then((value) => Navigator.pop(context));
     }
   }

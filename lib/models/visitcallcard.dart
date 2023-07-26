@@ -43,6 +43,8 @@ class Result {
     this.pmImage,
     this.disCase,
     this.targetCase,
+    this.eoeSeq,
+    this.remark
   });
 
   String visitId;
@@ -64,6 +66,8 @@ class Result {
   String pmImage;
   double disCase;
   double targetCase;
+  int eoeSeq;
+  String remark;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
     visitId: json["VISIT_ID"],
@@ -85,6 +89,8 @@ class Result {
     pmImage: json["PM_IMAGE"],
     disCase: double.parse(json["DIS_CASE"].toString()),
     targetCase: double.parse(json["TARGET_CASE"].toString()),
+    eoeSeq: json["EOE_SEQ"],
+    remark: json["REMARK"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -107,5 +113,7 @@ class Result {
     "PM_IMAGE": pmImage,
     "DIS_CASE": disCase,
     "TARGET_CASE": targetCase,
+    "EOE_SEQ": eoeSeq,
+    "REMARK": remark
   };
 }

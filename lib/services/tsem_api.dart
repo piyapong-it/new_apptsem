@@ -57,6 +57,8 @@ class TsemApi {
 
       var jsonResponse = json.decode(response.data);
       Udc result = Udc.fromJson(jsonResponse);
+      print("_______________________");
+      print(result);
       return result;
     } catch (e) {
       return (e);

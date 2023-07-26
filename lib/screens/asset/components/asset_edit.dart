@@ -417,6 +417,7 @@ class _AssetEditState extends State<AssetEdit> {
               }
             });
           } else {
+            print("_nodeStatus");
             _selectStatus = _nodeStatus[0];
           }
         });

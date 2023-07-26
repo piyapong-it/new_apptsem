@@ -6,6 +6,7 @@ import 'package:tsem/models/assetmaster.dart';
 import 'package:tsem/provider/asset_provider.dart';
 import 'package:tsem/screens/asset/components/asset_edit.dart';
 import 'package:tsem/screens/asset/components/asset_scan.dart';
+import 'package:tsem/screens/asset/components/dialog_scan_qrcode.dart';
 import 'package:tsem/screens/sign_in/sign_in_screen.dart';
 
 import '../../size_config.dart';
@@ -77,25 +78,35 @@ class _AssetMasterState extends State<AssetMaster> {
       body: _showAssetCard(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AssetScan(
-                  outletId: widget.outletId, outletName: widget.outletName),
-              // builder: (context) => AssetEdit(
-              //     qrId: '12000007',
-              //     outletId: widget.outletId, outletName: widget.outletName),
-            ),
-          ).then((value) {
-            setState(() {
-              _nodes = [];
-              getAssetMaster();
-            });
-          });
+          _showScanQRCode(context);
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => AssetScan(
+          //         outletId: widget.outletId, outletName: widget.outletName),
+          //     // builder: (context) => AssetEdit(
+          //     //     qrId: '12000007',
+          //     //     outletId: widget.outletId, outletName: widget.outletName),
+          //   ),
+          // ).then((value) {
+          //   setState(() {
+          //     _nodes = [];
+          //     getAssetMaster();
+          //   });
+          // });
         },
         tooltip: 'Scan QR',
         child: Icon(Icons.qr_code_rounded),
       ),
+    );
+  }
+
+  void _showScanQRCode(context) {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext dialogContext) => DialogScanQRCode(
+          outletId: widget.outletId, outletName: widget.outletName),
     );
   }
 

@@ -95,9 +95,7 @@ class OutletApi {
       Response response = await _dio.get(uri.toString(),
           options: Options(headers: {"Authorization": "Bearer $_token"}));
       var jsonResponse = json.decode(response.data);
-      print('response$response');
       OutletDetail result = OutletDetail.fromJson(jsonResponse);
-      print('result$result');
       return result;
     } catch (e) {
       return (e);
@@ -137,7 +135,6 @@ class OutletApi {
 
       var jsonResponse = json.decode(response.data);
 
-      print('TEST$jsonResponse');
       OutletAll outletResult = OutletAll.fromJson(jsonResponse);
 
       return outletResult;

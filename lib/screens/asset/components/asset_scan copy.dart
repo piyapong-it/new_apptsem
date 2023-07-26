@@ -1,5 +1,4 @@
-// import 'package:barcode_scan2/barcode_scan2.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tsem/components/default_button.dart';
@@ -19,9 +18,6 @@ class AssetScan extends StatefulWidget {
 }
 
 class _AssetScanState extends State<AssetScan> {
-    final GlobalKey _qrKey = GlobalKey(debugLabel: 'QR');
-  String code = '';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +37,7 @@ class _AssetScanState extends State<AssetScan> {
               padding: EdgeInsets.only(top: 50, left: 20, right: 20),
               child: Row(
                 children: <Widget>[
-                  _buildScanDialog(context: context),
+                  _buildScan(context: context),
                 ],
               ),
             ),
@@ -51,55 +47,45 @@ class _AssetScanState extends State<AssetScan> {
     );
   }
 
- 
-Widget _buildScanDialog ({BuildContext context}) {
-    return Dialog(
-      child: Padding(
-        padding: const EdgeInsets.all(18.0),
+  _buildScan({BuildContext context}) => Expanded(
+        flex: 1,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(code),
-            SizedBox(height: 12),
-            Stack(alignment: Alignment.center, children: [
-              _buildQRView(),
-              Container(
-                color: Colors.red,
-                width: double.infinity,
-                height: 1,
-              )
-            ]),
-            Container(
-              margin: EdgeInsets.only(top: 12),
-              width: double.infinity,
-              child: TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('close'),
-              ),
-            )
+          children: <Widget>[
+            Image.asset(
+              "assets/images/ic_scan_qrcode.png",
+              width: SizeConfig.screenHeight * 0.30,
+              height: SizeConfig.screenHeight * 0.30,
+            ),
+            SizedBox(
+              height: SizeConfig.screenHeight * 0.15,
+            ),
+            // RaisedButton(
+            //   color: Colors.blue,
+            //   textColor: Colors.white,
+            //   child: Text("SCAN"),
+            //   onPressed: (){
+            //     scanQRCode(context: context);
+            //   } ,
+            // ),
+            DefaultButton(
+                text: "SCAN",
+                press: () {
+                  scanQRCode(context: context);
+                }),
           ],
         ),
-      ),
-    );
-  }
-
- SizedBox _buildQRView() => SizedBox(
-        height: 300,
-        child: QRView(
-          key: _qrKey,
-          onQRViewCreated: (QRViewController controller) {
-            controller.scannedDataStream.listen((scanData) {
-              controller.stopCamera();
-              setState(() {
-                code = scanData.code;
-              });
-            });
-          },
-        ),
       );
+
   Future scanQRCode({BuildContext context}) async {
 
-    
+      var result = await BarcodeScanner.scan();
+
+  print(result.type); // The result type (barcode, cancelled, failed)
+  print(result.rawContent); // The barcode content
+  print(result.format); // The barcode format (as enum)
+  print(result.formatNote); 
     /*try {
       ScanResult barcode = await BarcodeScanner.scan();
       if (barcode.rawContent.toString().length != 8 &&
