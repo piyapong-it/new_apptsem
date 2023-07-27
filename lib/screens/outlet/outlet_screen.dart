@@ -30,16 +30,16 @@ class _OutletScreenState extends State<OutletScreen> {
 
   MessageAlert messageAlert = MessageAlert();
    final _storage = FlutterSecureStorage();
-  String department;
+  String level;
 
   @override
   void initState() {
     getOutlet();
-     _readDepartment();
+     _readLevel();
     super.initState();
   }
-    Future<Null> _readDepartment() async {
-    department = await _storage.read(key: DEPARTMENT);
+    Future<Null> _readLevel() async {
+    level = await _storage.read(key: APPLEVEL);
     setState(() {
       return;
     });
@@ -128,7 +128,7 @@ class _OutletScreenState extends State<OutletScreen> {
                 child: ListView.builder(
                   controller: _scrollController,
                   itemBuilder: (context, index) {
-                    return CardSection(_nodesForDisplay[index], department);
+                    return CardSection(_nodesForDisplay[index], level);
                   },
                   itemCount: _nodesForDisplay.length,
                 ),

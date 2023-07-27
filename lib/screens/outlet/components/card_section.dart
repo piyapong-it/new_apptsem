@@ -7,9 +7,9 @@ import 'footer_section.dart';
 
 class CardSection extends StatelessWidget {
   final Result result;
-  final String department; 
+  final String level; 
 
-  CardSection(this.result, this.department);
+  CardSection(this.result, this.level);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class CardSection extends StatelessWidget {
         children: [
           HeaderSection(result),
           BodySection(result),
-         department == 'TSM' ? SizedBox() :FooterSection(result),
+         level == 'TSM' ? SizedBox() :FooterSection(result),
         ],
       ),
     );

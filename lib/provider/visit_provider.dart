@@ -39,8 +39,10 @@ class VisitProvider {
   Future<DmLmessage> updateVisit({
     String visitId,
     String visitStatus,
+    String OultetID,
+    String Date
   }) async {
-    return api.updateVisit(visitId: visitId, visitStatus: visitStatus);
+    return api.updateVisit(visitId, visitStatus, OultetID, Date);
   }
 
   Future<DmLmessage> updateVisitAgenda({

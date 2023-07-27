@@ -25,16 +25,16 @@ class Items {
 
 class _CategoriesState extends State<Categories> {
   final _storage = FlutterSecureStorage();
-  String department;
+  String level;
 
   @override
   void initState() {
     super.initState();
-    _readDepartment();
+    _readLevel();
   }
 
-  Future<Null> _readDepartment() async {
-    department = await _storage.read(key: DEPARTMENT);
+  Future<Null> _readLevel() async {
+    level = await _storage.read(key: APPLEVEL);
     setState(() {
       return;
     });
@@ -108,7 +108,7 @@ class _CategoriesState extends State<Categories> {
       item5,
       item8,
     ];
-    if (department == 'TSM') {
+    if (level == 'TSM') {
       myList = [item1, item4, item11];
     }
     Color color = Color(0xFFFFECDF);

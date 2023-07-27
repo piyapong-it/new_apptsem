@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:tsem/components/default_control.dart';
 
@@ -296,68 +297,70 @@ class _VisitMjpScreenState extends State<VisitMjpScreen>
   }
 
   Widget _buildEventList() {
-    //_nodes[0].visitStatus
-
     return ListView(
       children: _selectedEvents
-          .map((event) => Container(
-                decoration: BoxDecoration(
-                  border: Border.all(width: 0.4),
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                child: Dismissible(
-                  key: UniqueKey(),
-                  direction: DismissDirection.endToStart,
-                  onDismissed: (direction) {
-                    setState(() {
-                      event.visitStatus = "CANCEL";
-                      VisitProvider().updateVisit(
-                          visitId: event.visitId, visitStatus: "CANCEL");
-                    });
-                  },
-                  background: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    decoration: BoxDecoration(
-                      color: Color(0xFFFFE6E6),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Row(
-                      children: [
-                        Spacer(),
-                        SvgPicture.asset("assets/icons/Trash.svg"),
-                      ],
-                    ),
-                  ),
-                  child: ListTile(
-                      leading: leadIcon(event.visitStatus),
-                      title: Text(
-                        "${event.outletName} ${event.outletid}",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 17.0),
-                      ),
-                      subtitle: Text(
-                        "${event.address}"
-                        "\n${event.outletType}",
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal, fontSize: 15.0),
-                      ),
-                      trailing: Text(
-                        "${event.visitType}"
-                        "\n${event.visitStatus}",
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            color: Colors.green,
-                            fontSize: 15.0),
-                      ),
-                      onTap: () {
-                        eventClick(event);
-                      }),
-                ),
+          .map(
+            (event) => Container(
+              decoration: BoxDecoration(
+                border: Border.all(width: 0.4),
+                borderRadius: BorderRadius.circular(12.0),
               ),
-      )
+              margin:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              child: Dismissible(
+                key: UniqueKey(),
+                direction: DismissDirection.endToStart,
+                onDismissed: (direction) {
+                  setState(() {
+                    event.visitStatus = "CANCEL";
+                    VisitProvider().updateVisit(
+                        visitId: event.visitId.toString() == null || event.visitId.toString() == '' ? 'UNPLAN' : event.visitId.toString(),
+                        visitStatus: "CANCEL",
+                        OultetID: event.outletid.toString(),
+                        Date: DateFormat('yyyyMMdd').format(_selectedDay));
+                  });
+                },
+                background: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFFFE6E6),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Row(
+                    children: [
+                      Spacer(),
+                      SvgPicture.asset("assets/icons/Trash.svg"),
+                    ],
+                  ),
+                ),
+                child: ListTile(
+                    leading: leadIcon(event.visitStatus),
+                    title: Text(
+                      "${event.outletName} ${event.outletid}",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 17.0),
+                    ),
+                    subtitle: Text(
+                      "${event.address}"
+                      "\n${event.outletType}",
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal, fontSize: 15.0),
+                    ),
+                    trailing: Text(
+                      "${event.visitType}"
+                      "\n${event.visitStatus}",
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          color: Colors.green,
+                          fontSize: 15.0),
+                    ),
+                    onTap: () {
+                      eventClick(event);
+                    }),
+              ),
+            ),
+          )
           .toList(),
     );
   }

@@ -103,10 +103,15 @@ class VisitApi {
     }
   }
 
-  Future<DmLmessage> updateVisit({String visitId, String visitStatus}) async {
+  Future<DmLmessage> updateVisit(
+      String visitId, String visitStatus, String OultetID, String Date) async {
+    print('visitId$visitId');
+    print('visitStatus$visitStatus');
+        print('visitId$OultetID');
+    print('visitStatus$Date');
     try {
       final storage = new FlutterSecureStorage();
-      String _jdeCode= await storage.read(key: JDECODE);
+      String _jdeCode = await storage.read(key: JDECODE);
       String _token = await storage.read(key: USERTOKEN);
 
       final uri = Uri.https(endpoint, "/api/visit/updateVisit");
@@ -115,7 +120,9 @@ class VisitApi {
           data: {
             "visitid": visitId,
             "visitstatus": visitStatus,
-            "updateby": _jdeCode
+            "updateby": _jdeCode,
+            "OultetID": OultetID,
+            "Date": Date
           },
           options: Options(headers: {"Authorization": "Bearer $_token"}));
       var jsonResponse = json.decode(response.data);
@@ -195,7 +202,7 @@ class VisitApi {
     }
   }
 
-  Future<VisitPlans> fetchVisitPlans(visitDate , JdeCode) async {
+  Future<VisitPlans> fetchVisitPlans(visitDate, JdeCode) async {
     try {
       final storage = new FlutterSecureStorage();
       // String _jdecode = await storage.read(key: JDECODE);
@@ -294,8 +301,7 @@ class VisitApi {
       String outletid,
       String visitdate,
       String remark,
-      int seq
-      }) async {
+      int seq}) async {
     try {
       final storage = new FlutterSecureStorage();
       String _jdeCode = await storage.read(key: JDECODE);
@@ -339,7 +345,12 @@ class VisitApi {
       final uri = Uri.https(endpoint, "/api/visit/deleteVisitCallCard");
 
       Response response = await _dio.post(uri.toString(),
-          data: {"visitid": visitId, "agendaid": agendaId, "pmid": pmid, "Seq": eoeSeq},
+          data: {
+            "visitid": visitId,
+            "agendaid": agendaId,
+            "pmid": pmid,
+            "Seq": eoeSeq
+          },
           options: Options(headers: {"Authorization": "Bearer $_token"}));
 
       var jsonResponse = json.decode(response.data);

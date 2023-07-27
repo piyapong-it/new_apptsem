@@ -358,7 +358,7 @@ class _VisitAgendaScreenState extends State<VisitAgendaScreen> {
     if (_isAllcompleted) {
       //print('visit id = ${_nodes[0].visitId}');
       VisitProvider()
-          .updateVisit(visitId: _nodes[0].visitId, visitStatus: "DONE")
+          .updateVisit(visitId: _nodes[0].visitId, visitStatus: "DONE", OultetID: '', Date: '')
           .then((value) => 
           
           Navigator.pushReplacement(
@@ -383,7 +383,7 @@ class _VisitAgendaScreenState extends State<VisitAgendaScreen> {
     }
     if (_isAllcompleted) {
       VisitProvider()
-          .updateVisit(visitId: _nodes[0].visitId, visitStatus: "DONE");
+          .updateVisit(visitId: _nodes[0].visitId, visitStatus: "DONE" , OultetID: '', Date: '');
     }
   }
 
