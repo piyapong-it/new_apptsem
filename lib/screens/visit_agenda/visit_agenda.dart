@@ -358,6 +358,7 @@ class _VisitAgendaScreenState extends State<VisitAgendaScreen> {
     if (_isAllcompleted) {
       //print('visit id = ${_nodes[0].visitId}');
       VisitProvider()
+      //เพิ่มส่งวันที่ไปด้วย
           .updateVisit(visitId: _nodes[0].visitId, visitStatus: "DONE", OultetID: '', Date: '')
           .then((value) => 
           

@@ -1,4 +1,4 @@
-package com.example.tsem
+package com.tsem
 
 import io.flutter.embedding.android.FlutterActivity
 

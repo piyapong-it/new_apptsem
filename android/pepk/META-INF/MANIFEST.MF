@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Created-By: singlejar
+Main-Class: com.google.wireless.android.vending.developer.signing.tools.extern.export.ExportEncryptedPrivateKeyTool
+Build-GPlatform: gcc-4.X.Y-crosstool-v18-llvm-grtev4-k8
+Multi-Release: true
+
