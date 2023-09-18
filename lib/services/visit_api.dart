@@ -7,6 +7,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:tsem/models/OutlVisitPlans.dart';
 import 'package:tsem/models/VisitPlans.dart';
+import 'package:tsem/models/brandactive.dart';
 import 'package:tsem/models/dmlmessage.dart';
 import 'package:tsem/models/visit.dart';
 import 'package:tsem/models/visitagenda.dart';
@@ -420,6 +421,25 @@ class VisitApi {
       var jsonResponse = json.decode(response.data);
 
       ItemVisitEoE result = ItemVisitEoE.fromJson(jsonResponse);
+      return result;
+    } catch (e) {
+      print('e: ${e}');
+      return (e);
+    }
+  }
+    Future<BrandActive> fetchItemBrandActive() async {
+    try {
+      final storage = new FlutterSecureStorage();
+      String _token = await storage.read(key: USERTOKEN);
+
+      final uri = Uri.https(endpoint, "/api/visit/getBrandActive/");
+
+      Response response = await _dio.get(uri.toString(),
+          options: Options(headers: {"Authorization": "Bearer $_token"}));
+
+      var jsonResponse = json.decode(response.data);
+
+      BrandActive result = BrandActive.fromJson(jsonResponse);
       return result;
     } catch (e) {
       print('e: ${e}');

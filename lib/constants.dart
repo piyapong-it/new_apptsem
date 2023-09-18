@@ -2,16 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:tsem/size_config.dart';
 
 const kVersion = "1.1.0";
-// const String endpoint = "192.168.1.55:3001";
-//const String endpoint = "172.32.100.95:3001";
 /*Development*/
-//  const String endpoint = "10.0.2.2:3000";
-// const String endpoint = "172.32.100.33:3003";
-
+const String endpoint = "172.32.100.33:3005";
+/*Development Mobile*/
+// const String endpoint = "192.168.1.39:3005";
 /*Production*/
-//const String endpoint = "tap.tapb.co.th:3001";
-//current
-const String endpoint = "tap.tapb.co.th:3004";
+// const String endpoint = "tap.tapb.co.th:3004";
 
 const String JDECODE = "jdecode";
 const String FULLNAME = "fullname";

@@ -1,5 +1,6 @@
 import 'package:tsem/models/outletdetail.dart';
 import 'package:tsem/models/outletnearby.dart';
+import 'package:tsem/models/outletrequest.dart';
 import 'package:tsem/models/outlets.dart';
 import 'package:tsem/models/outlettype.dart';
 import 'package:tsem/models/outletall.dart';
@@ -38,5 +39,9 @@ class OutletProvider {
 
   Future<UpdateOutl> UpdateOutlet({Object data}) async {
     return api.UpdateOutlet(data: data);
+  }
+
+  Future<OutletRequest> getOutletRequest() async {
+    return api.fetchOutletRequest();
   }
 }

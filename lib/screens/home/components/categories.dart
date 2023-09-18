@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:tsem/constants.dart';
+import 'package:tsem/screens/new_outlet/history.dart';
 import 'package:tsem/screens/outlet/outlet_screen.dart';
 import 'package:tsem/screens/performance/performance.dart';
 import 'package:tsem/screens/sales_folder/sales_folder.dart';
@@ -96,6 +97,12 @@ class _CategoriesState extends State<Categories> {
     event: TsmApprove.routeName,
     img: "assets/images/calendar.png",
   );
+  Items item12 = new Items(
+    title: "New Outlet",
+    subtitle: "New Outlet",
+    event: HistoryNewOutlet.routeName,
+    img: "assets/images/shop.png",
+  );
   @override
   Widget build(BuildContext context) {
     List<Items> myList = [
@@ -107,6 +114,7 @@ class _CategoriesState extends State<Categories> {
       item4,
       item5,
       item8,
+      item12,
     ];
     if (level == 'TSM') {
       myList = [item1, item4, item11];

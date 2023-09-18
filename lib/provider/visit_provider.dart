@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:tsem/models/OutlVisitPlans.dart';
 import 'package:tsem/models/VisitPlans.dart';
+import 'package:tsem/models/brandactive.dart';
 import 'package:tsem/models/dmlmessage.dart';
 import 'package:tsem/models/visit.dart';
 import 'package:tsem/models/visitagenda.dart';
@@ -129,6 +130,10 @@ class VisitProvider {
   Future<ItemVisitEoE> getItemVisitEoE(Object data) async {
     return api.fetchItemVisitEoE(data);
   }
+ Future<BrandActive> getItemBrandActive() async {
+    return api.fetchItemBrandActive();
+  }
+  
 
   Future<DmLmessage> updateVisitEOEFlag(Object data) async {
     return api.fetchUpdateVisitEOEFlag(data);

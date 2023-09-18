@@ -26,6 +26,7 @@ class Result {
     this.agendaName,
     this.status,
     this.minreq,
+    this.caseorder,
   });
 
   String visitId;
@@ -36,6 +37,7 @@ class Result {
   String agendaName;
   String status;
   int minreq;
+  int caseorder;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
     visitId: json["VISIT_ID"],
@@ -46,5 +48,6 @@ class Result {
     agendaName: json["AGENDA_NAME"],
     status: json["STATUS"],
     minreq: json["MINREQ"],
+    caseorder: json["CASEORDER"],
   );
 }

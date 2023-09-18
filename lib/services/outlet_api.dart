@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:tsem/models/outletdetail.dart';
 import 'package:tsem/models/outletnearby.dart';
+import 'package:tsem/models/outletrequest.dart';
 import 'package:tsem/models/outlets.dart';
 import 'package:tsem/models/outlettype.dart';
 import 'package:tsem/models/outletall.dart';
@@ -50,8 +51,8 @@ class OutletApi {
       String _jdecode = await storage.read(key: JDECODE);
       String _token = await storage.read(key: USERTOKEN);
 
-      final uri =
-          Uri.https(endpoint, "/api/outlets/getOutletsMapBySalesID/" + _jdecode);
+      final uri = Uri.https(
+          endpoint, "/api/outlets/getOutletsMapBySalesID/" + _jdecode);
       Response response = await _dio.get(uri.toString(),
           options: Options(headers: {"Authorization": "Bearer $_token"}));
 
@@ -104,7 +105,7 @@ class OutletApi {
 
   Future<TypeStatus> fetchOutletTypeStatus(
       {String Sys_Id, String Sys_Md, String Sys_Enbled}) async {
-        print('fetchOutletTypeStatus');
+    print('fetchOutletTypeStatus');
     try {
       final storage = new FlutterSecureStorage();
       String _token = await storage.read(key: USERTOKEN);
@@ -158,6 +159,25 @@ class OutletApi {
       return result;
     } catch (e) {
       print('E ${e}');
+    }
+  }
+
+  Future<OutletRequest> fetchOutletRequest() async {
+    try {
+      final storage = new FlutterSecureStorage();
+      String _jdecode = await storage.read(key: JDECODE);
+      String _token = await storage.read(key: USERTOKEN);
+
+      final uri = Uri.https(endpoint, "/api/outlets/OutletRequest/" + _jdecode);
+      Response response = await _dio.get(uri.toString(),
+          options: Options(headers: {"Authorization": "Bearer $_token"}));
+      var jsonResponse = json.decode(response.data);
+      OutletRequest outletRequest = OutletRequest.fromJson(jsonResponse);
+
+      return outletRequest;
+    } catch (e) {
+      print('error ${e}');
+      return (e);
     }
   }
 }

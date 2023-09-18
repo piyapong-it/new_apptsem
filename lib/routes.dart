@@ -4,6 +4,8 @@ import 'package:tsem/screens/asset/asset_master.dart';
 import 'package:tsem/screens/complaint/complaint.dart';
 import 'package:tsem/screens/defect/defect.dart';
 import 'package:tsem/screens/home/home_screen.dart';
+import 'package:tsem/screens/new_outlet/components/forms_outletRequset.dart';
+import 'package:tsem/screens/new_outlet/history.dart';
 import 'package:tsem/screens/outlet/outlet_screen.dart';
 import 'package:tsem/screens/outlet_census/outlet_census_map_screen.dart';
 import 'package:tsem/screens/outlet_detail/outlet_detail.dart';
@@ -49,5 +51,7 @@ final Map<String, WidgetBuilder> routes = {
   ComplaintScreen.routeName:(context) => ComplaintScreen(),
   Detail.routeName:(context) => Detail(),
   VisitPlan.routeName:(context) => VisitPlan(),
-  TsmApprove.routeName:(context) => TsmApprove()
+  TsmApprove.routeName:(context) => TsmApprove(),
+  HistoryNewOutlet.routeName:(context) => HistoryNewOutlet(),
+  FormsOutletRequest.routeName:(context) => FormsOutletRequest(),
 };

@@ -108,8 +108,8 @@ class _SignFormState extends State<SignForm> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Text("TAP Sales Execution Mobile v.${kVersion}"),
-              Text("TAP Sales Execution Mobile v.1.1.0"),
+              Text("TAP Sales Execution Mobile v.${kVersion}"),
+              // Text("TAP Sales Execution Mobile v.1.1.0"),
             ],
           ),
         ],
@@ -254,8 +254,6 @@ class _SignFormState extends State<SignForm> {
               message:
                   'Please update application in play store to version ${_user.appversion}',
               title: "Update Version");
-          //_launchURL();
-          print('Version miss match ${_user.appversion}');
         } else {
           Navigator.pushReplacementNamed(context, HomeScreen.routeName);
         }

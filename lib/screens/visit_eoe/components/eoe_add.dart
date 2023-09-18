@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tsem/components/default_control.dart';
+import 'package:tsem/models/brandactive.dart';
 import 'package:tsem/models/itemvisiteoe.dart';
 import 'package:tsem/provider/visit_provider.dart';
 import 'package:tsem/screens/home/home_screen.dart';
@@ -34,16 +35,24 @@ class EoeAdd extends StatefulWidget {
 class _EoeAddState extends State<EoeAdd> {
   List<Result> _nodes = [];
   List<Result> _nodesForDisplay = [];
+  List<resBrandActive> brandActive = [];
+  resBrandActive _selectBrand = resBrandActive();
 
   final GlobalKey<RefreshIndicatorState> _refresh =
       GlobalKey<RefreshIndicatorState>();
   final ScrollController _scrollController = ScrollController();
   final editingController = TextEditingController();
-
   MessageAlert messageAlert = MessageAlert();
 
   @override
   void initState() {
+    getItemBrandActive();
+    getItemVisitEoE();
+
+    super.initState();
+  }
+
+  void getItemVisitEoE() {
     VisitProvider().getItemVisitEoE(
         {"P_OWN": "ALL", "P_VisitId": widget.visitId}).then((value) {
       if (!value.success) {
@@ -76,8 +85,33 @@ class _EoeAddState extends State<EoeAdd> {
           message: "Connection error",
           title: "Please contact admin");
     });
+  }
 
-    super.initState();
+  void getItemBrandActive() {
+    VisitProvider().getItemBrandActive().then((value) {
+      if (!value.success) {
+        print('message ${value.message}');
+        messageAlert.functAlert(
+            context: context,
+            message: value.message,
+            function: () {
+              Navigator.pushReplacementNamed(context, SignInScreen.routeName);
+            });
+      }
+      if (value.result.length == 0) {
+        //
+      }
+      setState(() {
+        brandActive.addAll(value.result);
+        _selectBrand = brandActive[0];
+      });
+    }).catchError((err) {
+      print(err);
+      messageAlert.okAlert(
+          context: context,
+          message: "Connection error",
+          title: "Please contact admin");
+    });
   }
 
   @override
@@ -122,14 +156,63 @@ class _EoeAddState extends State<EoeAdd> {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
+            child: DropdownButtonFormField(
+              isDense: true,
+              decoration: InputDecoration(
+                  labelText: "Brand",
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                    borderSide: BorderSide(color: Colors.grey, width: 1),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey, width: 1),
+                  ),
+                  filled: true,
+                  fillColor: Color(0xFFFFECDF),),
+              value: _selectBrand,
+              iconSize: 24,
+              items: brandActive.map((value) {
+                return DropdownMenuItem(
+                  value: value,
+                  child: Text(value.bmName),
+                );
+              }).toList(),
+              onChanged: (newValue) {
+                _selectBrand = newValue;
+                setState(() {
+                  _nodesForDisplay = _nodes.where((ex) {
+                    var bm = ex.bm_id.toString();
+                    return bm.contains(_selectBrand.bmId.toString());
+                  }).toList();
+                });
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
             child: TextField(
               onChanged: (text) {
                 text = text.toLowerCase();
                 setState(() {
-                  _nodesForDisplay = _nodes.where((note) {
-                    var noteTitle = note.pm_name.toLowerCase();
-                    return noteTitle.contains(text);
+                  if (_selectBrand.bmId == 0) {
+                      _nodesForDisplay = _nodes.where((note) {
+                      var noteTitle = note.pm_name.toLowerCase();
+                      return noteTitle.contains(text);
+                    }).toList();
+                  } else {
+                    if(text == '') {
+                          _nodesForDisplay = _nodes.where((ex) {
+                    var bm = ex.bm_id.toString();
+                    return bm.contains(_selectBrand.bmId.toString());
                   }).toList();
+                    } else {
+
+                     _nodesForDisplay = _nodesForDisplay.where((note) {
+                      var noteTitle = note.pm_name.toLowerCase();
+                      return noteTitle.contains(text);
+                    }).toList();
+                    }
+                  }
                 });
               },
               controller: editingController,

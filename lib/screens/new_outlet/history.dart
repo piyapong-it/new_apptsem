@@ -1,95 +1,73 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:tsem/components/default_control.dart';
-import 'package:tsem/constants.dart';
-import 'package:tsem/models/outlets.dart';
+import 'package:tsem/components/msg_alert.dart';
 import 'package:tsem/provider/outlet_provider.dart';
 import 'package:tsem/screens/home/home_screen.dart';
+import 'package:tsem/screens/new_outlet/components/card_history.dart';
+import 'package:tsem/screens/new_outlet/components/forms_outletRequset.dart';
 import 'package:tsem/screens/sign_in/sign_in_screen.dart';
 
-import '../../components/msg_alert.dart';
-import './components/card_section.dart';
-
-class OutletScreen extends StatefulWidget {
-  static String routeName = "/outlet";
+class HistoryNewOutlet extends StatefulWidget {
+  static String routeName = "/historynewoutlet";
+  const HistoryNewOutlet();
 
   @override
-  _OutletScreenState createState() => _OutletScreenState();
+  State<HistoryNewOutlet> createState() => _HistoryNewOutletState();
 }
 
-class _OutletScreenState extends State<OutletScreen> {
-  List<Result> _nodes = [];
-  List<Result> _nodesForDisplay = [];
-
-  String numberOfOutlet = "";
+class _HistoryNewOutletState extends State<HistoryNewOutlet> {
+  List _history = [];
+  List _historyForDisplay = [];
+  String numberOfOutletReq = "";
+  MessageAlert messageAlert = MessageAlert();
   final GlobalKey<RefreshIndicatorState> _refresh =
       GlobalKey<RefreshIndicatorState>();
   final ScrollController _scrollController = ScrollController();
-  final editingController = TextEditingController();
-
-  MessageAlert messageAlert = MessageAlert();
-   final _storage = FlutterSecureStorage();
-  String level;
+  final SearchController = TextEditingController();
 
   @override
   void initState() {
-    getOutlet();
-     _readLevel();
+    getNewOutletRequest();
     super.initState();
-  }
-    Future<Null> _readLevel() async {
-    level = await _storage.read(key: APPLEVEL);
-    setState(() {
-      return;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xFFFFECDF),
-          elevation: 0,
-          leading: IconButton(
+      appBar: AppBar(
+        leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
-            onPressed: () {
-               Navigator.pushNamedAndRemoveUntil(
-                      context, HomeScreen.routeName, (route) => false);
-            },
-          ),
-          title: DefaultControl.headerText(
-              headText: "My oulet (${numberOfOutlet})"),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.refresh),
-              tooltip: "Refresh",
-              onPressed: () {
-                // _scrollController.animateTo(0,
-                //     duration: Duration(seconds: 1), curve: Curves.easeInOut);
-                setState(() {
-                  _nodes = [];
-                  getOutlet();
-                });
-              },
+            onPressed: () => {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, HomeScreen.routeName, (route) => false)
+                }),
+        title: DefaultControl.headerText(
+            headText: "New Outlet Request (Total ${numberOfOutletReq})"),
+      ),
+      body: _history.length == 0
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : _showHistoryOutlet(),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FormsOutletRequest(),
             ),
-          ],
-        ),
-        body: _nodes.length == 0
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : _showSearchList());
+          );
+        },
+        label: const Text('Add'),
+        icon: const Icon(Icons.add),
+      ),
+    );
   }
 
-  Widget _showSearchList() {
+  Widget _showHistoryOutlet() {
     return Container(
       decoration: (BoxDecoration(
         color: Color(0xFFFFECDF),
-        // image: DecorationImage(
-        //   image: AssetImage("assets/images/bg.png"),
-        //   fit: BoxFit.cover,
-        // ),
       )),
       child: Column(
         children: [
@@ -99,14 +77,14 @@ class _OutletScreenState extends State<OutletScreen> {
               onChanged: (text) {
                 text = text.toLowerCase();
                 setState(() {
-                  _nodesForDisplay = _nodes.where((note) {
-                    var noteTitle = note.outletName.toLowerCase();
+                  _historyForDisplay = _history.where((note) {
+                    var noteTitle = note.cmOutlName.toLowerCase();
                     return noteTitle.contains(text);
                   }).toList();
-                  numberOfOutlet = _nodesForDisplay.length.toString();
+                  numberOfOutletReq = _historyForDisplay.length.toString();
                 });
               },
-              controller: editingController,
+              controller: SearchController,
               decoration: InputDecoration(
                   labelText: "Search",
                   labelStyle: TextStyle(color: Colors.black),
@@ -128,9 +106,9 @@ class _OutletScreenState extends State<OutletScreen> {
                 child: ListView.builder(
                   controller: _scrollController,
                   itemBuilder: (context, index) {
-                    return CardSection(_nodesForDisplay[index], level);
+                    return CardHistory(_historyForDisplay[index]);
                   },
-                  itemCount: _nodesForDisplay.length,
+                  itemCount: _historyForDisplay.length,
                 ),
               ),
             ),
@@ -144,14 +122,14 @@ class _OutletScreenState extends State<OutletScreen> {
     print("_handleRefresh");
     await Future.delayed(Duration(seconds: 2));
     setState(() {
-      _nodes = [];
-      getOutlet();
+      _history = [];
+      getNewOutletRequest();
     });
     return null;
   }
 
-  void getOutlet() {
-    OutletProvider().getMyOutlet().then((value) {
+  void getNewOutletRequest() {
+    OutletProvider().getOutletRequest().then((value) {
       if (!value.success) {
         print('message ${value.message}');
         messageAlert.functAlert(
@@ -172,9 +150,9 @@ class _OutletScreenState extends State<OutletScreen> {
       }
 
       setState(() {
-        _nodes.addAll(value.result);
-        _nodesForDisplay = _nodes;
-        numberOfOutlet = _nodesForDisplay.length.toString();
+        _history.addAll(value.result);
+        _historyForDisplay = _history;
+        numberOfOutletReq = _historyForDisplay.length.toString();
       });
     }).catchError((err) {
       print(err);
