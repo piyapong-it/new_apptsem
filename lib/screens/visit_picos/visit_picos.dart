@@ -228,6 +228,13 @@ class _VisitEoeScreenState extends State<VisitPicosScreen> {
               agendaId: _nodes[0].agendaId,
               visitStatus: "DONE")
           .then((value) => Navigator.pop(context));
+    } else {
+       VisitProvider()
+          .updateVisitAgenda(
+              visitId: widget.visitId,
+              agendaId: widget.agendaId,
+              visitStatus: "DONE")
+          .then((value) => Navigator.pop(context));
     }
   }
 
