@@ -5,12 +5,18 @@ import 'constants.dart';
 
 ThemeData theme() {
   return ThemeData(
+    useMaterial3: true,
     scaffoldBackgroundColor: Colors.white,
     fontFamily: "Muli",
     appBarTheme: appBarTheme(),
     textTheme: textTheme(),
     inputDecorationTheme: inputDecorationTheme(),
     visualDensity: VisualDensity.adaptivePlatformDensity,
+    colorSchemeSeed:  Colors.blueAccent,
+    //  floatingActionButtonTheme: const FloatingActionButtonThemeData(
+    //   foregroundColor: Colors.white,
+    // ),
+    
   );
 }
 

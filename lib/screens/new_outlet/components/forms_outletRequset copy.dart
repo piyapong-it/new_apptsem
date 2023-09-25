@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:tsem/components/default_control.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,17 +17,15 @@ import 'package:tsem/screens/home/home_screen.dart';
 import 'package:tsem/screens/sign_in/sign_in_screen.dart';
 
 class FormsOutletRequest extends StatefulWidget {
-   static String routeName = "/FormsOutletRequest";
+  static String routeName = "/FormsOutletRequest";
   const FormsOutletRequest();
 
   @override
   State<FormsOutletRequest> createState() => _FormsOutletRequestState();
 }
 
-class _FormsOutletRequestState extends State<FormsOutletRequest>
-    with TickerProviderStateMixin {
+class _FormsOutletRequestState extends State<FormsOutletRequest> {
   MessageAlert messageAlert = MessageAlert();
-  TabController _tabController;
   File _image;
   String _fileName;
   final _form = GlobalKey<FormState>();
@@ -57,21 +53,11 @@ class _FormsOutletRequestState extends State<FormsOutletRequest>
     getOutletType();
     getOutletStatus();
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      initialIndex: 1,
-      length: 2,
-      child: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           leading: IconButton(
               icon: Icon(Icons.arrow_back_ios),
@@ -89,43 +75,26 @@ class _FormsOutletRequestState extends State<FormsOutletRequest>
             ),
           ],
           title: DefaultControl.headerText(headText: "Forms New Outlet"),
-          bottom: TabBar(
-            controller: _tabController,
-            dividerColor: Colors.transparent,
-            tabs: <Widget>[
-              Tab(
-                text: 'information',
-                icon: Icon(Icons.info_outline_rounded),
-              ),
-              Tab(
-                text: 'visit',
-                icon: Icon(Icons.visibility),
-              ),
-            ],
-          ),
         ),
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-              Container(
-                margin: const EdgeInsets.all(10.0),
-                  child: SingleChildScrollView(
-                      child: Column(
-                children: [
-                  _buildOutletImage(),
-                  SizedBox(height: 10),
-                  _showAddress(),
-                  SizedBox(height: 8),
-                  _showFormsOutletRequest(),
-                ],
-              ))),
-            Center(
-              child: Text("val"),
-            ),
-          ],
-        ),
-      ),
-    );
+        body: SafeArea(
+            child: Form(
+                key: _form,
+                child: Container(
+                    // decoration: (BoxDecoration(
+                    //   color: Color.fromARGB(255, 226, 186, 159),
+                    // )),
+                    margin: EdgeInsets.all(10),
+                    child: SingleChildScrollView(
+                        child: Column(
+                      children: [
+                        _buildOutletImage(),
+                        SizedBox(height: 10),
+                        _showAddress(),
+                        SizedBox(height: 8),
+                        _showFormsOutletRequest(),
+                      ],
+                    ))))));
+  
   }
 
   Widget _buildOutletImage() {
@@ -149,7 +118,7 @@ class _FormsOutletRequestState extends State<FormsOutletRequest>
                 ),
               ),
               InkWell(
-                // onTap: _onAlertPress,
+                onTap: _onAlertPress,
                 child: Container(
                     padding: EdgeInsets.all(5),
                     decoration: BoxDecoration(
@@ -167,6 +136,69 @@ class _FormsOutletRequestState extends State<FormsOutletRequest>
         ],
       ),
     );
+  }
+
+  void _onAlertPress() async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return new CupertinoAlertDialog(
+            actions: [
+              CupertinoDialogAction(
+                isDefaultAction: true,
+                child: Column(
+                  children: <Widget>[
+                    Image.asset(
+                      'assets/images/gallery.png',
+                      width: 50,
+                    ),
+                    Text('Gallery'),
+                  ],
+                ),
+                onPressed: getGalleryImage,
+              ),
+              CupertinoDialogAction(
+                isDefaultAction: true,
+                child: Column(
+                  children: <Widget>[
+                    Image.asset(
+                      'assets/images/take_picture.png',
+                      width: 50,
+                    ),
+                    Text('Take Photo'),
+                  ],
+                ),
+                onPressed: getCameraImage,
+              ),
+            ],
+          );
+        });
+  }
+
+  Future getGalleryImage() async {
+    File image;
+    final picker = ImagePicker();
+    final pickedFile =
+        await picker.getImage(source: ImageSource.gallery, imageQuality: 25);
+
+    setState(() {
+      image = File(pickedFile.path);
+      _image = image;
+      Navigator.pop(context);
+    });
+  }
+
+  Future getCameraImage() async {
+    File image;
+    final picker = ImagePicker();
+    final pickedFile =
+        await picker.getImage(source: ImageSource.camera, imageQuality: 25);
+
+    setState(() {
+      image = File(pickedFile.path);
+      _image = image;
+      Navigator.pop(context);
+    });
   }
 
   Widget _showAddress() {
@@ -273,10 +305,8 @@ class _FormsOutletRequestState extends State<FormsOutletRequest>
                     );
                   }).toList(),
                   onChanged: (newValue) {
-                    setState(() {
-                      _selectSubDistrict = newValue;
-                    });
-                      _Zipcode.text = newValue.zipCode;
+                    _selectSubDistrict = newValue;
+                    _Zipcode.text = newValue.zipCode;
                   },
                 ),
               ),
@@ -680,3 +710,4 @@ class _FormsOutletRequestState extends State<FormsOutletRequest>
     );
   }
 }
+
