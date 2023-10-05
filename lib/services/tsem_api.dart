@@ -140,6 +140,42 @@ class TsemApi {
     }
   }
 
+  Future<DmLmessage>createUser(Object data) async {
+    try {
+      final storage = new FlutterSecureStorage();
+
+      final uri = Uri.https(endpoint, "/api/users/createUserByTSEM");
+      Response response = await _dio.post(uri.toString(), data: data);
+
+      var jsonResponse = json.decode(response.data);
+
+      DmLmessage result = DmLmessage.fromJson(jsonResponse);
+
+      return result;
+    } catch (e) {
+      print('e: ${e}');
+      return (e);
+    }
+  }
+
+  Future<DmLmessage>updatePwd(Object data) async {
+    try {
+      final storage = new FlutterSecureStorage();
+
+      final uri = Uri.https(endpoint, "/api/users/updatePws");
+      Response response = await _dio.post(uri.toString(), data: data);
+
+      var jsonResponse = json.decode(response.data);
+
+      DmLmessage result = DmLmessage.fromJson(jsonResponse);
+
+      return result;
+    } catch (e) {
+      print('e: ${e}');
+      return (e);
+    }
+  }
+
   Future<DmLmessage> updateDefect(
       {String defectid,
       String outletid,

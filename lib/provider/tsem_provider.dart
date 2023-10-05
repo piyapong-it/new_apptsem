@@ -19,6 +19,14 @@ class TsemProvider {
     return api.fetchUser(userId: userId, password: password);
   }
 
+  Future<DmLmessage> signUp({Object data}) async {
+    return api.createUser(data);
+  }
+
+   Future<DmLmessage> updatePassword({Object data}) async {
+    return api.updatePwd(data);
+  }
+
   Future<Udc> getUdc({String id, String md, String key}) async {
     return api.fetchUdc(id: id, md: md, key: key);
   }
@@ -98,8 +106,10 @@ class TsemProvider {
     return api.updateOutletImage(outletid: outletid, imagepath: imagepath);
   }
 
-  Future<complainttrans.ComplaintTrans> getComplaintTrans({String outletid, String complaintid}) async {
-    return api.fetchComplaintTrans(outletid: outletid, complaintid: complaintid);
+  Future<complainttrans.ComplaintTrans> getComplaintTrans(
+      {String outletid, String complaintid}) async {
+    return api.fetchComplaintTrans(
+        outletid: outletid, complaintid: complaintid);
   }
 
   Future<Questions> getComplaintQuestion({String category}) async {
@@ -115,13 +125,12 @@ class TsemProvider {
     return api.updateCompliantTrans(complaintTrans: complaintTrans);
   }
 
-  Future<UploadImage> uploadImageComplaint({String outletid, File imageFile}) async {
+  Future<UploadImage> uploadImageComplaint(
+      {String outletid, File imageFile}) async {
     return api.uploadImageComplaint(outletid: outletid, imageFile: imageFile);
   }
 
-  Future<DmLmessage> updateComplaintQuiz(
-      {quiz.Result complaintQuiz}) async {
+  Future<DmLmessage> updateComplaintQuiz({quiz.Result complaintQuiz}) async {
     return api.updateCompliantQuiz(complaintQuiz: complaintQuiz);
   }
-
 }

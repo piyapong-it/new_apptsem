@@ -3,6 +3,7 @@ import 'package:tsem/screens/address/detail.dart';
 import 'package:tsem/screens/asset/asset_master.dart';
 import 'package:tsem/screens/complaint/complaint.dart';
 import 'package:tsem/screens/defect/defect.dart';
+import 'package:tsem/screens/forget_password/forget_password.dart';
 import 'package:tsem/screens/home/home_screen.dart';
 import 'package:tsem/screens/new_outlet/components/forms_outletRequset.dart';
 import 'package:tsem/screens/new_outlet/history.dart';
@@ -15,6 +16,7 @@ import 'package:tsem/screens/outlet_nearby_map/outlet_nearby_map_screen.dart';
 import 'package:tsem/screens/performance/performance.dart';
 import 'package:tsem/screens/sales_folder/sales_folder.dart';
 import 'package:tsem/screens/sales_folder/sales_folder_view.dart';
+import 'package:tsem/screens/sign_up/signup_form.dart';
 import 'package:tsem/screens/task/mytask.dart';
 import 'package:tsem/screens/task/task.dart';
 import 'package:tsem/screens/tsm_approve/tsm_approve.dart';
@@ -54,4 +56,6 @@ final Map<String, WidgetBuilder> routes = {
   TsmApprove.routeName:(context) => TsmApprove(),
   HistoryNewOutlet.routeName:(context) => HistoryNewOutlet(),
   FormsOutletRequest.routeName:(context) => FormsOutletRequest(),
+  SignUpFrom.routeName:(context) => SignUpFrom(),
+   ForgetPassword.routeName:(context) => ForgetPassword(),
 };

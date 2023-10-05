@@ -9,7 +9,9 @@ import 'package:tsem/components/form_error.dart';
 import 'package:tsem/components/msg_alert.dart';
 import 'package:tsem/models/user.dart';
 import 'package:tsem/provider/tsem_provider.dart';
+import 'package:tsem/screens/forget_password/forget_password.dart';
 import 'package:tsem/screens/home/home_screen.dart';
+import 'package:tsem/screens/sign_up/signup_form.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../components/default_button.dart';
@@ -89,6 +91,19 @@ class _SignFormState extends State<SignForm> {
               ),
               Text("Remember me"),
               Spacer(),
+              GestureDetector(
+                onTap: () => {
+                    Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ForgetPassword(),
+                  ))
+                },
+                child: Text(
+                  'Forgot your password?',
+                  style: TextStyle(color: Colors.blue),
+                ),
+              ),
             ],
           ),
           FormError(errors: errors),
@@ -103,6 +118,31 @@ class _SignFormState extends State<SignForm> {
                     userid: username, password: password, remember: remember);
               }
             },
+          ),
+          SizedBox(height: getProportionateScreenHeight(10)),
+          GestureDetector(
+            onTap: () => {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SignUpFrom(),
+                  ))
+            },
+            child: Container(
+              padding: EdgeInsets.all(10.0),
+              width: getProportionateScreenWidth(350),
+              height: getProportionateScreenHeight(50),
+              decoration: BoxDecoration(
+                border: Border.all(width: 1.0, color: Colors.blue),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Center(
+                child: Text(
+                  'Sign up',
+                  style: TextStyle(color: Colors.blue),
+                ),
+              ),
+            ),
           ),
           SizedBox(height: getProportionateScreenHeight(15)),
           Row(
