@@ -1,11 +1,9 @@
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:tsem/components/default_button.dart';
 import 'package:tsem/components/default_control.dart';
 
 import '../../../size_config.dart';
-import 'asset_edit.dart';
 
 class AssetScan extends StatefulWidget {
   String outletId;

@@ -340,7 +340,6 @@ class VisitApi {
       {String visitId, int agendaId, String pmid, int eoeSeq}) async {
     try {
       final storage = new FlutterSecureStorage();
-      String _username = await storage.read(key: USERNAME);
       String _token = await storage.read(key: USERTOKEN);
 
       final uri = Uri.https(endpoint, "/api/visit/deleteVisitCallCard");
@@ -409,7 +408,6 @@ class VisitApi {
   Future<ItemVisitEoE> fetchItemVisitEoE(Object data) async {
     try {
       final storage = new FlutterSecureStorage();
-      String _username = await storage.read(key: USERNAME);
       String _token = await storage.read(key: USERTOKEN);
 
       final uri = Uri.https(endpoint, "/api/visit/getVisitEoEAll/");
@@ -451,7 +449,6 @@ class VisitApi {
     try {
       print(data);
       final storage = new FlutterSecureStorage();
-      String _username = await storage.read(key: USERNAME);
       String _token = await storage.read(key: USERTOKEN);
 
       final uri = Uri.https(endpoint, "/api/visit/updateVisitEOEFlag/");

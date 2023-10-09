@@ -152,7 +152,11 @@ class _SignUpFromState extends State<SignUpFrom> {
       setState(() {
         _txtShow = 'Enter Password';
       });
-    } else if (_password.text != _passwordAgain.text) {
+    } else if (_password.text.length < 5) {
+      setState(() {
+        _txtShow = 'Password is too short';
+      });
+    }else if (_password.text != _passwordAgain.text) {
       setState(() {
         _txtShow = "Password don't match";
       });
@@ -212,6 +216,9 @@ class _SignUpFromState extends State<SignUpFrom> {
             });
       }
     }).catchError((e) {
+        setState(() {
+        Navigator.pop(context);
+      });
       messageAlert.okAlert(
           context: context,
           message: e.toString(),
@@ -254,6 +261,7 @@ class _SignUpFromState extends State<SignUpFrom> {
               keyboardType: keyboardType,
               maxLines: null,
               decoration: InputDecoration(
+                fillColor: Colors.amber,
                 counterText: "",
                 labelText: labelText,
                 hintText: hintText,

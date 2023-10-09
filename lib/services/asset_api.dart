@@ -53,7 +53,7 @@ class AssetApi {
       int assetquantity}) async {
     try {
       final storage = new FlutterSecureStorage();
-      String _username = await storage.read(key: USERNAME);
+      String _jdeCode = await storage.read(key: JDECODE);
       String _token = await storage.read(key: USERTOKEN);
 
       final uri = Uri.https(endpoint, "/api/asset/updateAsset");
@@ -68,7 +68,7 @@ class AssetApi {
             "assetjdeno": assetjdeno,
             "assetremark": assetremark,
             "assetquantity": assetquantity,
-            "updateby": _username
+            "updateby": _jdeCode
           },
           options: Options(headers: {"Authorization": "Bearer $_token"}));
 

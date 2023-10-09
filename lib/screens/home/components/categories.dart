@@ -114,9 +114,9 @@ class _CategoriesState extends State<Categories> {
       item4,
       item5,
       item8,
-      item12,
+      // item12,
     ];
-    if (level == 'TSM') {
+    if (level == 'TSM' || level == 'RSM') {
       myList = [item1, item4, item11];
     }
     Color color = Color(0xFFFFECDF);

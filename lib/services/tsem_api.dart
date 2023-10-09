@@ -142,8 +142,6 @@ class TsemApi {
 
   Future<DmLmessage>createUser(Object data) async {
     try {
-      final storage = new FlutterSecureStorage();
-
       final uri = Uri.https(endpoint, "/api/users/createUserByTSEM");
       Response response = await _dio.post(uri.toString(), data: data);
 
@@ -160,8 +158,6 @@ class TsemApi {
 
   Future<DmLmessage>updatePwd(Object data) async {
     try {
-      final storage = new FlutterSecureStorage();
-
       final uri = Uri.https(endpoint, "/api/users/updatePws");
       Response response = await _dio.post(uri.toString(), data: data);
 
@@ -187,7 +183,7 @@ class TsemApi {
       String defectremark}) async {
     try {
       final storage = new FlutterSecureStorage();
-      String _username = await storage.read(key: USERNAME);
+      String _jdeCode = await storage.read(key: JDECODE);
       String _token = await storage.read(key: USERTOKEN);
 
       final uri = Uri.https(endpoint, "/api/misc/updateDefect");
@@ -201,7 +197,7 @@ class TsemApi {
             "batchcode": batchcode,
             "defectimage": defectimage,
             "defectremark": defectremark,
-            "updateby": _username
+            "updateby": _jdeCode
           },
           options: Options(headers: {"Authorization": "Bearer $_token"}));
 
@@ -304,7 +300,7 @@ class TsemApi {
       String taskremark}) async {
     try {
       final storage = new FlutterSecureStorage();
-      String _username = await storage.read(key: USERNAME);
+      String _jdeCode = await storage.read(key: JDECODE);
       String _token = await storage.read(key: USERTOKEN);
 
       final uri = Uri.https(endpoint, "/api/misc/updateTask");
@@ -318,7 +314,7 @@ class TsemApi {
             "duedate": DateFormat('yyyy-MM-dd').format(duedate),
             "completedate": DateFormat('yyyy-MM-dd').format(completedate),
             "taskremark": taskremark,
-            "updateby": _username
+            "updateby": _jdeCode
           },
           options: Options(headers: {"Authorization": "Bearer $_token"}));
 
@@ -372,7 +368,6 @@ class TsemApi {
       {String outletid, String imagepath}) async {
     try {
       final storage = new FlutterSecureStorage();
-      String _username = await storage.read(key: USERNAME);
       String _token = await storage.read(key: USERTOKEN);
 
       final uri = Uri.https(endpoint, "/api/misc/updateOutletImage");
@@ -463,7 +458,7 @@ class TsemApi {
       {complainttrans.Result complaintTrans}) async {
     try {
       final storage = new FlutterSecureStorage();
-      String _username = await storage.read(key: USERNAME);
+      String _jdeCode = await storage.read(key: JDECODE);
       String _token = await storage.read(key: USERTOKEN);
 
       final uri = Uri.https(endpoint, "/api/misc/updateComplaintTrans");
@@ -483,7 +478,7 @@ class TsemApi {
             "quantity": complaintTrans.rQuantity,
             "remark": complaintTrans.rRemark,
             "finishtext": complaintTrans.finishText,
-            "updateby": _username
+            "updateby": _jdeCode
           },
           options: Options(headers: {"Authorization": "Bearer $_token"}));
 
@@ -536,7 +531,7 @@ class TsemApi {
   Future<DmLmessage> updateCompliantQuiz({quiz.Result complaintQuiz}) async {
     try {
       final storage = new FlutterSecureStorage();
-      String _username = await storage.read(key: USERNAME);
+      String _jdeCode = await storage.read(key: JDECODE);
       String _token = await storage.read(key: USERTOKEN);
 
       final uri = Uri.https(endpoint, "/api/misc/updateComplaintQuiz");
@@ -552,7 +547,7 @@ class TsemApi {
             "answerid": complaintQuiz.aid,
             "answertext": complaintQuiz.aText,
             "finishtext": complaintQuiz.finishText,
-            "updateby": _username
+            "updateby": _jdeCode
           },
           options: Options(headers: {"Authorization": "Bearer $_token"}));
 

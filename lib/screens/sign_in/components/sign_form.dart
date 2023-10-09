@@ -93,11 +93,11 @@ class _SignFormState extends State<SignForm> {
               Spacer(),
               GestureDetector(
                 onTap: () => {
-                    Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ForgetPassword(),
-                  ))
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ForgetPassword(),
+                      ))
                 },
                 child: Text(
                   'Forgot your password?',
@@ -289,6 +289,9 @@ class _SignFormState extends State<SignForm> {
         storage.write(key: USERTOKEN, value: _user.token);
 
         if (_user.appversion != kVersion) {
+          setState(() {
+            Navigator.pop(context);
+          });
           messageAlert.okAlert(
               context: context,
               message:

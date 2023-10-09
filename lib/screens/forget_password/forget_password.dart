@@ -102,11 +102,15 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       setState(() {
         _txtShow = 'Enter Password';
       });
+    } else if (_password.text.length < 5) {
+      setState(() {
+        _txtShow = 'Password is too short';
+      });
     } else {
       setState(() {
         _txtShow = '';
       });
-      // submit();
+      submit();
     }
   }
 
@@ -154,6 +158,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             });
       }
     }).catchError((e) {
+        setState(() {
+        Navigator.pop(context);
+      });
       messageAlert.okAlert(
           context: context,
           message: e.toString(),
