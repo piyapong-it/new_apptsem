@@ -4,12 +4,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:store_redirect/store_redirect.dart';
 import 'package:tsem/components/custom_surfix_icon.dart';
 import 'package:tsem/components/form_error.dart';
 import 'package:tsem/components/msg_alert.dart';
 import 'package:tsem/models/user.dart';
 import 'package:tsem/provider/tsem_provider.dart';
-import 'package:tsem/screens/forget_password/forget_password.dart';
+import 'package:tsem/screens/forgot_password/forgot_password.dart';
 import 'package:tsem/screens/home/home_screen.dart';
 import 'package:tsem/screens/sign_up/signup_form.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -292,18 +293,23 @@ class _SignFormState extends State<SignForm> {
           setState(() {
             Navigator.pop(context);
           });
-          messageAlert.okAlert(
-              context: context,
-              message:
-                  'Please update application in play store to version ${_user.appversion}',
-              title: "Update Version");
+          showDialog<String>(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+              title: const Text('Update Version'),
+              content:  Text('Please update application in play store to version ${_user.appversion}'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => StoreRedirect.redirect(androidAppId: "com.tsem", iOSAppId: ""),
+                  child: const Text('Go to play store'),
+                ),
+              ],
+            ),
+          );
         } else {
           Navigator.pushReplacementNamed(context, HomeScreen.routeName);
         }
-        //Navigator.pushReplacementNamed(context, HomeScreen.routeName);
       } else {
-        // messageAlert.okAlert(
-        //     context: context, message: _user.message, title: "Login error");
         messageAlert.functAlert(
             context: context,
             message: "ตรวจสอบผู้ใช้งาน \n" + _user.message,

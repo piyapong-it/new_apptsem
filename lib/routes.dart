@@ -3,7 +3,7 @@ import 'package:tsem/screens/address/detail.dart';
 import 'package:tsem/screens/asset/asset_master.dart';
 import 'package:tsem/screens/complaint/complaint.dart';
 import 'package:tsem/screens/defect/defect.dart';
-import 'package:tsem/screens/forget_password/forget_password.dart';
+import 'package:tsem/screens/forgot_password/forgot_password.dart';
 import 'package:tsem/screens/home/home_screen.dart';
 import 'package:tsem/screens/new_outlet/components/forms_outletRequset.dart';
 import 'package:tsem/screens/new_outlet/history.dart';

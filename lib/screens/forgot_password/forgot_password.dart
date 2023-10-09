@@ -32,7 +32,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           leading: IconButton(
               icon: Icon(Icons.arrow_back_ios),
               onPressed: () => {Navigator.pop(context)}),
-          title: DefaultControl.headerText(headText: "Forget Password Forms"),
+          title: DefaultControl.headerText(headText: "Forgot Password Forms"),
         ),
         body: SafeArea(
           child: Container(
