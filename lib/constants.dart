@@ -6,7 +6,6 @@ const kVersion = "1.2.0";
 // const String endpoint = "172.32.100.33:3005";
 /*Development Mobile*/
 const String endpoint1 = "192.168.1.39:3005";
-const String endpoint2 = "192.168.1.39:3005";
 /*Production*/
 const String endpoint = "tap.tapb.co.th:3004";
 
